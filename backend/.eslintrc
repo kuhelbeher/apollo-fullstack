@@ -9,8 +9,7 @@
       "error",
       {
         "singleQuote": true,
-        "trailingComma": "all",
-        "jsxBracketSameLine": true
+        "trailingComma": "all"
       }
     ]
   }
