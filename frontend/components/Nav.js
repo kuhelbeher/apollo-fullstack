@@ -6,11 +6,21 @@ import NavStyles from './styles/NavStyles';
 function Nav() {
   return (
     <NavStyles>
-      <Link href="/items">Items</Link>
-      <Link href="/sell">Sell</Link>
-      <Link href="/signup">Signup</Link>
-      <Link href="/orders">Orders</Link>
-      <Link href="/me">Account</Link>
+      <Link href="/items">
+        <a>Shop</a>
+      </Link>
+      <Link href="/sell">
+        <a>Sell</a>
+      </Link>
+      <Link href="/signup">
+        <a>Signup</a>
+      </Link>
+      <Link href="/orders">
+        <a>Orders</a>
+      </Link>
+      <Link href="/me">
+        <a>Account</a>
+      </Link>
     </NavStyles>
   );
 }

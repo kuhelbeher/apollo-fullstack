@@ -1,10 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
+
+import Items from '../components/Items';
 
 function Home() {
   return (
     <div>
-      <p>Index</p>
+      <Items />
     </div>
   );
 }
