@@ -77,7 +77,6 @@ function CreateItem() {
         // call the mutation
         const res = await createItem({ variables: values });
         // change them to the single item page
-        console.log(res);
         Router.push({
           pathname: '/item',
           query: { id: res.data.createItem.id },
