@@ -60,8 +60,6 @@ function CreateItem() {
 
     const file = await res.json();
 
-    console.log(file);
-
     setValues({
       ...values,
       image: file.secure_url,
