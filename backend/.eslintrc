@@ -5,6 +5,7 @@
   "extends": ["airbnb-base", "prettier", "prettier/react"],
   "plugins": ["prettier"],
   "rules": {
+    "no-param-reassign": 0,
     "prettier/prettier": [
       "error",
       {
