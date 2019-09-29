@@ -107,7 +107,8 @@
       {
         "aspects": ["invalidHref"]
       }
-    ]
+    ],
+    "react/prop-types": 0
   },
   "plugins": ["prettier"]
 }

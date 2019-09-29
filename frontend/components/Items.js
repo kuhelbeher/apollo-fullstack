@@ -4,10 +4,12 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import Item from './Item';
+import Pagination from './Pagination';
+import { perPage } from '../config';
 
 const ALL_ITEMS_QUERY = gql`
-  query ALL_ITEMS_QUERY {
-    items {
+  query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
+    items(first: $first, skip: $skip, orderBy: createdAt_DESC) {
       id
       title
       price
@@ -29,8 +31,11 @@ const ItemsList = styled.div`
   max-width: ${props => props.theme.maxWidth};
 `;
 
-function Items() {
-  const { data, loading, error } = useQuery(ALL_ITEMS_QUERY);
+function Items({ page }) {
+  const { data, loading, error } = useQuery(ALL_ITEMS_QUERY, {
+    variables: { skip: page * perPage - perPage },
+    // fetchPolicy: 'network-only',
+  });
 
   if (loading) {
     return (
@@ -50,11 +55,13 @@ function Items() {
 
   return (
     <Center>
+      <Pagination page={page} />
       <ItemsList>
         {data.items.map(item => (
           <Item key={item.id} item={item} />
         ))}
       </ItemsList>
+      <Pagination page={page} />
     </Center>
   );
 }

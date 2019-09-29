@@ -2,10 +2,10 @@ import React from 'react';
 
 import Items from '../components/Items';
 
-function Home() {
+function Home({ query }) {
   return (
     <div>
-      <Items />
+      <Items page={parseInt(query.page, 10) || 1} />
     </div>
   );
 }
