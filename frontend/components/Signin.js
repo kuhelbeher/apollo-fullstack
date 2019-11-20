@@ -6,13 +6,9 @@ import Form from './styles/Form';
 import Error from './ErrorMessage';
 import { CURRENT_USER_QUERY } from '../hooks';
 
-const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION(
-    $email: String!
-    $name: String!
-    $password: String!
-  ) {
-    signup(email: $email, name: $name, password: $password) {
+const SIGNIN_MUTATION = gql`
+  mutation SIGNIN_MUTATION($email: String!, $password: String!) {
+    signin(email: $email, password: $password) {
       id
       email
       name
@@ -20,14 +16,13 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-function Signup() {
+function Signin() {
   const [values, setValues] = useState({
     email: '',
-    name: '',
     password: '',
   });
 
-  const [signup, { loading, error }] = useMutation(SIGNUP_MUTATION, {
+  const [signin, { loading, error }] = useMutation(SIGNIN_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
 
@@ -41,14 +36,14 @@ function Signup() {
       onSubmit={async e => {
         e.preventDefault();
         try {
-          await signup({ variables: values });
+          await signin({ variables: values });
 
-          setValues({ email: '', name: '', password: '' });
+          setValues({ email: '', password: '' });
         } catch (error) {}
       }}
     >
       <fieldset disabled={loading} aria-busy={loading}>
-        <h2>Sign up for an account</h2>
+        <h2>Sign in for an account</h2>
         <Error error={error} />
         <label htmlFor="email">
           Email
@@ -57,16 +52,6 @@ function Signup() {
             name="email"
             placeholder="email"
             value={values.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label htmlFor="name">
-          Name
-          <input
-            type="text"
-            name="name"
-            placeholder="name"
-            value={values.name}
             onChange={handleChange}
           />
         </label>
@@ -80,10 +65,10 @@ function Signup() {
             onChange={handleChange}
           />
         </label>
-        <button type="submit">Signup</button>
+        <button type="submit">Sign In</button>
       </fieldset>
     </Form>
   );
 }
 
-export default Signup;
+export default Signin;

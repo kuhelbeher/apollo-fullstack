@@ -18,7 +18,7 @@ const PAGINATION_QUERY = gql`
 `;
 
 function Pagination({ page }) {
-  const { loading, error, data } = useQuery(PAGINATION_QUERY);
+  const { loading, data } = useQuery(PAGINATION_QUERY);
 
   if (loading) {
     return <p>Loading...</p>;
