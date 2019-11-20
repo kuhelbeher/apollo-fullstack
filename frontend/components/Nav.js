@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import NavStyles from './styles/NavStyles';
 import { useUser } from '../hooks';
+import Signout from './Signout';
 
 function Nav() {
   const {
@@ -25,6 +26,7 @@ function Nav() {
           <Link href="/me">
             <a>Account</a>
           </Link>
+          <Signout />
         </>
       )}
       {!me && (
