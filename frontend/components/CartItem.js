@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import formatMoney from '../lib/formatMoney';
+import RemoveFromCart from './RemoveFromCart';
 
 const CastItemStyles = styled.li`
   padding: 1rem;
@@ -23,6 +24,7 @@ function CartItem({
   item: {
     item: { image, title, price },
     quantity,
+    id,
   },
 }) {
   return (
@@ -38,6 +40,7 @@ function CartItem({
           </em>
         </p>
       </div>
+      <RemoveFromCart id={id} />
     </CastItemStyles>
   );
 }
