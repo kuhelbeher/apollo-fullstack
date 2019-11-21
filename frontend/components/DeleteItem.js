@@ -36,7 +36,9 @@ function DeleteItem({ id, children }) {
       onClick={() => {
         // eslint-disable-next-line no-restricted-globals
         if (confirm('Are you sure you want to delete this?')) {
-          deleteItem({ variables: { id } });
+          deleteItem({ variables: { id } }).catch(err => {
+            alert(err.message);
+          });
         }
       }}
     >
