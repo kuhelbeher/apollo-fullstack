@@ -2,13 +2,14 @@ import React from 'react';
 import Link from 'next/link';
 
 import NavStyles from './styles/NavStyles';
-import { useUser } from '../hooks';
+import { useUser, useCart } from '../hooks';
 import Signout from './Signout';
 
 function Nav() {
   const {
     data: { me },
   } = useUser();
+  const [, toggleCart] = useCart();
 
   return (
     <NavStyles>
@@ -27,6 +28,9 @@ function Nav() {
             <a>Account</a>
           </Link>
           <Signout />
+          <button type="button" onClick={toggleCart}>
+            My Cart
+          </button>
         </>
       )}
       {!me && (

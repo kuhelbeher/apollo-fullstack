@@ -7,6 +7,7 @@ import ItemStyles from './styles/ItemStyles';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
 import DeleteItem from './DeleteItem';
+import AddToCart from './AddToCart';
 
 function Item({ item }) {
   return (
@@ -33,7 +34,7 @@ function Item({ item }) {
         >
           <a>Edit ✏️</a>
         </Link>
-        <button type="button">Add to cart</button>
+        <AddToCart id={item.id} />
         <DeleteItem id={item.id}>Delete</DeleteItem>
       </div>
     </ItemStyles>
