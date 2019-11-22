@@ -6,7 +6,6 @@ import NProgress from 'nprogress';
 import gql from 'graphql-tag';
 
 import calcTotalPrice from '../lib/calcTotalPrice';
-import Error from './ErrorMessage';
 import { useUser, CURRENT_USER_QUERY } from '../hooks';
 
 function totalItems(cart) {
@@ -37,10 +36,15 @@ function TakeMyMoney({ children }) {
   });
 
   const handleToken = async res => {
+    NProgress.start();
     const order = await createOrder({ variables: { token: res.id } }).catch(
       err => alert(err.message)
     );
-    console.log({ order });
+
+    Router.push({
+      pathname: '/order',
+      query: { id: order.data.createOrder.id },
+    });
   };
 
   return (
