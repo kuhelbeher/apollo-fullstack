@@ -8,6 +8,7 @@ import CartItem from './CartItem';
 import { useCart, useUser } from '../hooks';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import formatMoney from '../lib/formatMoney';
+import TakeMyMoney from './TakeMyMoney';
 
 function Cart() {
   const [cartOpen, toggleCart] = useCart();
@@ -38,7 +39,11 @@ function Cart() {
       </ul>
       <footer>
         <p>{formatMoney(calcTotalPrice(me.cart))}</p>
-        <SickButton>Checkout</SickButton>
+        {me.cart.length && (
+          <TakeMyMoney>
+            <SickButton>Checkout</SickButton>
+          </TakeMyMoney>
+        )}
       </footer>
     </CartStyles>
   );
