@@ -25,7 +25,8 @@ server.express.use((req, res, next) => {
 // create a middleware that populates the user on each request
 server.express.use(async (req, res, next) => {
   if (!req.userId) {
-    return next();
+    next();
+    return;
   }
 
   const user = await db.query.user(
