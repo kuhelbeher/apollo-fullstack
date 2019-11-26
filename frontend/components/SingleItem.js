@@ -26,7 +26,7 @@ const SingleItemStyles = styled.div`
   }
 `;
 
-const SINGLE_ITEM_QUERY = gql`
+export const SINGLE_ITEM_QUERY = gql`
   query SINGLE_ITEM_QUERY($id: ID!) {
     item(where: { id: $id }) {
       id
@@ -38,11 +38,7 @@ const SINGLE_ITEM_QUERY = gql`
 `;
 
 function SingleItem({ id }) {
-  const {
-    loading,
-    error,
-    data: { item },
-  } = useQuery(SINGLE_ITEM_QUERY, {
+  const { loading, error, data } = useQuery(SINGLE_ITEM_QUERY, {
     variables: { id },
   });
 
@@ -53,6 +49,8 @@ function SingleItem({ id }) {
   if (error) {
     return <Error error={error} />;
   }
+
+  const { item } = data;
 
   if (!item) {
     return <p>No item found for this id: {id}</p>;
