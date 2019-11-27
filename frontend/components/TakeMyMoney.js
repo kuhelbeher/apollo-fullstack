@@ -12,7 +12,7 @@ function totalItems(cart) {
   return cart.reduce((tally, item) => tally + item.quantity, 0);
 }
 
-const CREATE_ORDER_MUTATION = gql`
+export const CREATE_ORDER_MUTATION = gql`
   mutation CREATE_ORDER_MUTATION($token: String!) {
     createOrder(token: $token) {
       id
@@ -29,9 +29,10 @@ const CREATE_ORDER_MUTATION = gql`
 function TakeMyMoney({ children }) {
   const {
     data: { me },
+    loading,
   } = useUser();
 
-  const [createOrder] = useMutation(CREATE_ORDER_MUTATION, {
+  const [createOrder, data] = useMutation(CREATE_ORDER_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
 
@@ -46,6 +47,10 @@ function TakeMyMoney({ children }) {
       query: { id: order.data.createOrder.id },
     });
   };
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <StripeCheckout
