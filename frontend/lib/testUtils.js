@@ -1,4 +1,6 @@
 import casual from 'casual';
+import { act } from 'react-dom/test-utils';
+import { wait } from '@apollo/react-testing';
 
 // seed it so we get consistent results
 casual.seed(777);
@@ -76,6 +78,21 @@ class LocalStorageMock {
   }
 }
 
+// Use this in your test after mounting if you need just need to let the query finish without updating the wrapper
+async function actWait(amount = 0) {
+  await act(async () => {
+    await wait(amount);
+  });
+}
+
+// Use this in your test after mounting if you want the query to finish and update the wrapper
+async function updateWrapper(wrapper, amount = 0) {
+  await act(async () => {
+    await wait(amount);
+    wrapper.update();
+  });
+}
+
 export {
   LocalStorageMock,
   fakeItem,
@@ -83,4 +100,6 @@ export {
   fakeCartItem,
   fakeOrder,
   fakeOrderItem,
+  actWait,
+  updateWrapper,
 };

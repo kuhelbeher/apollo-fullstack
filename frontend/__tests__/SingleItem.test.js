@@ -1,24 +1,8 @@
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import { MockedProvider, wait } from '@apollo/react-testing';
-import { act } from 'react-dom/test-utils';
+import { MockedProvider } from '@apollo/react-testing';
 import SingleItem, { SINGLE_ITEM_QUERY } from '../components/SingleItem';
-import { fakeItem } from '../lib/testUtils';
-
-// Use this in your test after mounting if you need just need to let the query finish without updating the wrapper
-async function actWait(amount = 0) {
-  await act(async () => {
-    await wait(amount);
-  });
-}
-
-// Use this in your test after mounting if you want the query to finish and update the wrapper
-async function updateWrapper(wrapper, amount = 0) {
-  await act(async () => {
-    await wait(amount);
-    wrapper.update();
-  });
-}
+import { fakeItem, updateWrapper } from '../lib/testUtils';
 
 describe('<SingleItem/>', () => {
   it('renders with proper data', async () => {
@@ -63,8 +47,6 @@ describe('<SingleItem/>', () => {
       </MockedProvider>
     );
     await updateWrapper(wrapper);
-
-    console.log(wrapper.debug());
 
     const item = wrapper.find('[data-test="graphql-error"]');
     expect(item.text()).toContain('Items Not Found!');
