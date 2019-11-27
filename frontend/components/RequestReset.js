@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import Form from './styles/Form';
 import Error from './ErrorMessage';
 
-const REQUEST_RESET_MUTATION = gql`
+export const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
     requestReset(email: $email) {
       message
@@ -26,6 +26,7 @@ function RequestReset() {
 
   return (
     <Form
+      data-test="form"
       method="post"
       onSubmit={async e => {
         e.preventDefault();

@@ -4,10 +4,9 @@ import gql from 'graphql-tag';
 import Router from 'next/router';
 
 import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 
-const CREATE_ITEM_MUTATION = gql`
+export const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
     $title: String!
     $description: String!
@@ -69,6 +68,7 @@ function CreateItem() {
 
   return (
     <Form
+      data-test="form"
       onSubmit={async e => {
         // stop form from submitting
         e.preventDefault();
@@ -94,7 +94,12 @@ function CreateItem() {
             onChange={uploadFile}
           />
           {values.image && (
-            <img width="200" src={values.image} alt="Upload Preview" />
+            <img
+              data-test="uploaded-image"
+              width="200"
+              src={values.image}
+              alt="Upload Preview"
+            />
           )}
         </label>
         <label htmlFor="title">
@@ -140,4 +145,3 @@ function CreateItem() {
 }
 
 export default CreateItem;
-export { CREATE_ITEM_MUTATION };

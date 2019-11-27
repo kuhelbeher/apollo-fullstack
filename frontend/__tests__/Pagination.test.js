@@ -4,8 +4,7 @@ import toJSON from 'enzyme-to-json';
 import Router from 'next/router';
 
 import Pagination, { PAGINATION_QUERY } from '../components/Pagination';
-import { CURRENT_USER_QUERY, LOCAL_STATE_QUERY } from '../hooks';
-import { fakeUser, updateWrapper, fakeCartItem } from '../lib/testUtils';
+import { updateWrapper } from '../lib/testUtils';
 
 Router.router = {
   push() {},
