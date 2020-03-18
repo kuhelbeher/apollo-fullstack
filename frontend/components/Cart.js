@@ -12,9 +12,7 @@ import TakeMyMoney from './TakeMyMoney';
 
 function Cart() {
   const [cartOpen, toggleCart] = useCart();
-  const {
-    data: { me },
-  } = useUser();
+  const { data: { me } = {} } = useUser();
 
   if (!me) {
     return null;

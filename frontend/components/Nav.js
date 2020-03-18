@@ -7,9 +7,7 @@ import Signout from './Signout';
 import CartCount from './CartCount';
 
 function Nav() {
-  const {
-    data: { me },
-  } = useUser();
+  const { data: { me } = {} } = useUser();
   const [, toggleCart] = useCart();
 
   return (

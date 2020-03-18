@@ -1,12 +1,18 @@
 import { ApolloProvider } from 'react-apollo';
-import App, { Container } from 'next/app';
+import App, { Container, AppContext, AppProps } from 'next/app';
+import { ParsedUrlQuery } from 'querystring';
+import { ApolloClient, InMemoryCache } from 'apollo-boost';
 
 import withData from '../lib/withData';
 import Page from '../components/Page';
 
-class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    let pageProps = {};
+type Props = AppProps & {
+  apollo: ApolloClient<InMemoryCache>;
+};
+
+class MyApp extends App<Props> {
+  static async getInitialProps({ Component, ctx }: AppContext) {
+    let pageProps: { query?: ParsedUrlQuery } = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }

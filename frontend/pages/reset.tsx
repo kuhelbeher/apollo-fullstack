@@ -1,7 +1,13 @@
 import React from 'react';
 import Reset from '../components/Reset';
 
-function ResetPage({ query }) {
+type Props = {
+  query: {
+    resetToken: string;
+  };
+};
+
+function ResetPage({ query }: Props) {
   return (
     <div>
       <Reset resetToken={query.resetToken} />

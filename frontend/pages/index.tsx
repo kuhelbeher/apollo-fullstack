@@ -2,14 +2,16 @@ import React from 'react';
 
 import Items from '../components/Items';
 
-interface Props {
-  query: any;
-}
+type Props = {
+  query: {
+    page?: string;
+  };
+};
 
-function Home({ query }: Props) {
+function Home({ query: { page = '1' } }: Props) {
   return (
     <div>
-      <Items page={parseInt(query.page, 10) || 1} />
+      <Items page={parseInt(page, 10)} />
     </div>
   );
 }

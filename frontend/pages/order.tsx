@@ -3,7 +3,13 @@ import React from 'react';
 import PleaseSignIn from '../components/PleaseSignIn';
 import Order from '../components/Order';
 
-function OrderPage({ query }) {
+type Props = {
+  query: {
+    id: string;
+  };
+};
+
+function OrderPage({ query }: Props) {
   return (
     <div>
       <PleaseSignIn>
