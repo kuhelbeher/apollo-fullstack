@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Item from './Item';
 import Pagination from './Pagination';
 import { perPage } from '../config';
+import { Item as ItemType } from '../types';
 
 const ALL_ITEMS_QUERY = gql`
   query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
@@ -31,11 +32,26 @@ const ItemsList = styled.div`
   max-width: ${props => props.theme.maxWidth};
 `;
 
-function Items({ page }) {
-  const { data, loading, error } = useQuery(ALL_ITEMS_QUERY, {
-    variables: { skip: page * perPage - perPage },
-    // fetchPolicy: 'network-only',
-  });
+type Props = {
+  page: number;
+};
+
+type AllItemsData = {
+  items: ItemType[];
+};
+
+type AllItemsVars = {
+  skip: number;
+};
+
+function Items({ page }: Props) {
+  const { data, loading, error } = useQuery<AllItemsData, AllItemsVars>(
+    ALL_ITEMS_QUERY,
+    {
+      variables: { skip: page * perPage - perPage },
+      // fetchPolicy: 'network-only',
+    }
+  );
 
   if (loading) {
     return (
@@ -57,7 +73,7 @@ function Items({ page }) {
     <Center>
       <Pagination page={page} />
       <ItemsList>
-        {data.items.map(item => (
+        {data?.items.map(item => (
           <Item key={item.id} item={item} />
         ))}
       </ItemsList>

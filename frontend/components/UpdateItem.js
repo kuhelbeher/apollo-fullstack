@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
-import Router from 'next/router';
 import PropTypes from 'prop-types';
 
 import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 
 const SINGLE_ITEM_QUERY = gql`

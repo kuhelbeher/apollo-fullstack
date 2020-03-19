@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 
 import PropTypes from 'prop-types';
+import { ApolloError } from 'apollo-boost';
 
 const ErrorStyles = styled.div`
   padding: 2rem;
@@ -18,22 +19,13 @@ const ErrorStyles = styled.div`
   }
 `;
 
-const DisplayError = ({ error }) => {
+type Props = {
+  error: ApolloError;
+};
+
+const DisplayError = ({ error }: Props) => {
   if (!error || !error.message) return null;
-  if (
-    error.networkError &&
-    error.networkError.result &&
-    error.networkError.result.errors.length
-  ) {
-    return error.networkError.result.errors.map((error, i) => (
-      <ErrorStyles key={i}>
-        <p data-test="graphql-error">
-          <strong>Shoot!</strong>
-          {error.message.replace('GraphQL error: ', '')}
-        </p>
-      </ErrorStyles>
-    ));
-  }
+
   return (
     <ErrorStyles>
       <p data-test="graphql-error">

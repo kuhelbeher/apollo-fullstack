@@ -16,7 +16,7 @@ export const REQUEST_RESET_MUTATION = gql`
 function RequestReset() {
   const [email, setEmail] = useState('');
 
-  const [requestReset, { loading, error, called, data }] = useMutation(
+  const [requestReset, { loading, error, called }] = useMutation(
     REQUEST_RESET_MUTATION
   );
 

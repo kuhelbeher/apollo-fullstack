@@ -5,6 +5,7 @@ import Router from 'next/router';
 
 import Form from './styles/Form';
 import Error from './ErrorMessage';
+import { Item } from '../types';
 
 export const CREATE_ITEM_MUTATION = gql`
   mutation CREATE_ITEM_MUTATION(
@@ -26,23 +27,6 @@ export const CREATE_ITEM_MUTATION = gql`
   }
 `;
 
-type ItemVariables = {
-  title: string;
-  description: string;
-  image: string;
-  largeImage: string;
-  price: number;
-};
-
-type CreateItemVariables = {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-  largeImage: string;
-  price: number;
-};
-
 function CreateItem() {
   const [values, setValues] = useState({
     title: '',
@@ -53,8 +37,8 @@ function CreateItem() {
   });
 
   const [createItem, { loading, error }] = useMutation<
-    { createItem: CreateItemVariables },
-    ItemVariables
+    { createItem: Item },
+    Omit<Item, 'id'>
   >(CREATE_ITEM_MUTATION);
 
   const handleChange = (

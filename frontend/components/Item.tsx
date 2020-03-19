@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 import Title from './styles/Title';
@@ -8,8 +7,13 @@ import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
 import DeleteItem from './DeleteItem';
 import AddToCart from './AddToCart';
+import { Item as ItemType } from '../types';
 
-function Item({ item }) {
+type Props = {
+  item: ItemType;
+};
+
+function Item({ item }: Props) {
   return (
     <ItemStyles>
       {item.image && <img src={item.image} alt={item.title} />}
@@ -40,9 +44,5 @@ function Item({ item }) {
     </ItemStyles>
   );
 }
-
-Item.propTypes = {
-  item: PropTypes.object.isRequired,
-};
 
 export default Item;

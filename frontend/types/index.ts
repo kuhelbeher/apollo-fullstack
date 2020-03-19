@@ -12,6 +12,7 @@ export type Item = {
   title: string;
   price: number;
   image: string;
+  largeImage: string;
   description: string;
 };
 
