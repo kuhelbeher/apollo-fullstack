@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -26,6 +26,23 @@ export const CREATE_ITEM_MUTATION = gql`
   }
 `;
 
+type ItemVariables = {
+  title: string;
+  description: string;
+  image: string;
+  largeImage: string;
+  price: number;
+};
+
+type CreateItemVariables = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  largeImage: string;
+  price: number;
+};
+
 function CreateItem() {
   const [values, setValues] = useState({
     title: '',
@@ -35,9 +52,14 @@ function CreateItem() {
     price: 0,
   });
 
-  const [createItem, { loading, error }] = useMutation(CREATE_ITEM_MUTATION);
+  const [createItem, { loading, error }] = useMutation<
+    { createItem: CreateItemVariables },
+    ItemVariables
+  >(CREATE_ITEM_MUTATION);
 
-  const handleChange = e => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, type, value } = e.target;
 
     const val = type === 'number' ? parseFloat(value) || 0 : value;
@@ -45,8 +67,12 @@ function CreateItem() {
     setValues({ ...values, [name]: val });
   };
 
-  const uploadFile = async e => {
+  const uploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
+
+    if (!files) {
+      return;
+    }
 
     const data = new FormData();
     data.append('file', files[0]);
@@ -69,7 +95,7 @@ function CreateItem() {
   return (
     <Form
       data-test="form"
-      onSubmit={async e => {
+      onSubmit={async (e: FormEvent<HTMLFormElement>) => {
         // stop form from submitting
         e.preventDefault();
         // call the mutation
@@ -77,7 +103,7 @@ function CreateItem() {
         // change them to the single item page
         Router.push({
           pathname: '/item',
-          query: { id: res.data.createItem.id },
+          query: { id: res?.data?.createItem.id },
         });
       }}
     >
@@ -129,7 +155,6 @@ function CreateItem() {
         <label htmlFor="description">
           Description
           <textarea
-            type="number"
             id="description"
             name="description"
             placeholder="Description"

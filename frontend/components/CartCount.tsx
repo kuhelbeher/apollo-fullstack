@@ -40,7 +40,11 @@ const Dot = styled.div`
   font-variant-numeric: tabular-nums;
 `;
 
-function CartCount({ count }) {
+type Props = {
+  count: number;
+};
+
+function CartCount({ count }: Props) {
   return (
     <AnimationStyles>
       <TransitionGroup>

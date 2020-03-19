@@ -15,8 +15,8 @@ export type Item = {
   description: string;
 };
 
-export type Cart = Array<{
+export type CartItem = {
   id: string;
   quantity: number;
   item: Item;
-}>;
+};

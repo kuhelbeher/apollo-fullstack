@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import formatMoney from '../lib/formatMoney';
 import RemoveFromCart from './RemoveFromCart';
+import { CartItem as CartItemType } from '../types';
 
 const CartItemStyles = styled.li`
   padding: 1rem;
@@ -23,7 +24,11 @@ const CartItemStyles = styled.li`
   }
 `;
 
-function CartItem({ cartItem: { item, quantity, id } }) {
+type Props = {
+  cartItem: CartItemType;
+};
+
+function CartItem({ cartItem: { item, quantity, id } }: Props) {
   // first check if that item exists
   if (!item) {
     return (

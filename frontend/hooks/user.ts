@@ -1,7 +1,7 @@
 import { useQuery } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { Permissions, Cart } from '../types';
+import { Permissions, CartItem } from '../types';
 
 export type CurrentUserType = {
   me: {
@@ -9,7 +9,7 @@ export type CurrentUserType = {
     email: string;
     name: string;
     permissions: Permissions;
-    cart: Cart;
+    cart: CartItem[];
   };
 };
 
