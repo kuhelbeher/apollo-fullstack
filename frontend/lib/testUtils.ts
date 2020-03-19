@@ -1,6 +1,7 @@
 import casual from 'casual';
 import { act } from 'react-dom/test-utils';
 import { wait } from '@apollo/react-testing';
+import { ReactWrapper } from 'enzyme';
 
 // seed it so we get consistent results
 casual.seed(777);
@@ -22,7 +23,6 @@ const fakeUser = () => ({
   name: casual.name,
   email: casual.email,
   permissions: ['ADMIN'],
-  orders: [],
   cart: [],
 });
 
@@ -46,7 +46,12 @@ const fakeOrder = () => ({
   user: fakeUser(),
 });
 
-const fakeCartItem = overrides => ({
+type Overrides = {
+  id: string;
+  quantity: number;
+};
+
+const fakeCartItem = (overrides: Overrides) => ({
   __typename: 'CartItem',
   id: 'omg123',
   quantity: 3,
@@ -57,23 +62,21 @@ const fakeCartItem = overrides => ({
 
 // Fake LocalStorage
 class LocalStorageMock {
-  constructor() {
-    this.store = {};
-  }
+  store: { [key: string]: string } = {};
 
   clear() {
     this.store = {};
   }
 
-  getItem(key) {
+  getItem(key: string) {
     return this.store[key] || null;
   }
 
-  setItem(key, value) {
+  setItem(key: string, value: any) {
     this.store[key] = value.toString();
   }
 
-  removeItem(key) {
+  removeItem(key: string) {
     delete this.store[key];
   }
 }
@@ -86,7 +89,7 @@ async function actWait(amount = 0) {
 }
 
 // Use this in your test after mounting if you want the query to finish and update the wrapper
-async function updateWrapper(wrapper, amount = 0) {
+async function updateWrapper(wrapper: ReactWrapper, amount = 0) {
   await act(async () => {
     await wait(amount);
     wrapper.update();
