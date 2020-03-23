@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import Error from './ErrorMessage';
 import formatMoney from '../lib/formatMoney';
 import OrderItemStyles from './styles/OrderItemStyles';
+import { Order } from '../types';
 
 const USER_ORDERS_QUERY = gql`
   query USER_ORDERS_QUERY {
@@ -33,12 +34,14 @@ const OrderUl = styled.ul`
   grid-template-columns: repeat(auto-fit, minmax(40%, 1fr));
 `;
 
+type OrderData = {
+  orders: Order[];
+};
+
 function OrderList() {
-  const {
-    data: { orders },
-    loading,
-    error,
-  } = useQuery(USER_ORDERS_QUERY);
+  const { data: { orders } = {}, loading, error } = useQuery<OrderData>(
+    USER_ORDERS_QUERY
+  );
 
   if (loading) {
     return <p>Loading...</p>;
@@ -50,9 +53,9 @@ function OrderList() {
 
   return (
     <div>
-      <h2>You have {orders.length} orders</h2>
+      <h2>You have {orders?.length} orders</h2>
       <OrderUl>
-        {orders.map(order => (
+        {orders?.map(order => (
           <OrderItemStyles key={order.id}>
             <Link href={{ pathname: '/order', query: { id: order.id } }}>
               <a>

@@ -1,10 +1,14 @@
-import React from 'react';
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import React, { ReactNode } from 'react';
+import styled, {
+  ThemeProvider,
+  createGlobalStyle,
+  DefaultTheme,
+} from 'styled-components';
 
 import Header from './Header';
 import Meta from './Meta';
 
-const theme = {
+const theme: DefaultTheme = {
   red: '#FF0000',
   black: '#393939',
   grey: '#3A3A3A',
@@ -56,7 +60,11 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-function Page({ children }) {
+type Props = {
+  children: ReactNode;
+};
+
+function Page({ children }: Props) {
   return (
     <ThemeProvider theme={theme}>
       <>

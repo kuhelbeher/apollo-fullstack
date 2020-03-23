@@ -17,11 +17,27 @@ export const PAGINATION_QUERY = gql`
   }
 `;
 
-function Pagination({ page }) {
-  const { loading, data } = useQuery(PAGINATION_QUERY);
+type Props = {
+  page: number;
+};
+
+type PaginationData = {
+  itemsConnection: {
+    aggregate: {
+      count: number;
+    };
+  };
+};
+
+function Pagination({ page }: Props) {
+  const { loading, data } = useQuery<PaginationData>(PAGINATION_QUERY);
 
   if (loading) {
     return <p>Loading...</p>;
+  }
+
+  if (!data) {
+    return null;
   }
 
   const { count } = data.itemsConnection.aggregate;
@@ -34,7 +50,7 @@ function Pagination({ page }) {
           Sick Fits! Page {page} of {pages}
         </title>
       </Head>
-      <Link prefetch href={{ pathname: 'items', query: { page: page - 1 } }}>
+      <Link href={{ pathname: 'items', query: { page: page - 1 } }}>
         <a className="prev" aria-disabled={page <= 1}>
           Prev
         </a>
@@ -43,7 +59,7 @@ function Pagination({ page }) {
         Page {page} of <span className="total-pages">{pages}</span>
       </p>
       <p>{count} Items Total</p>
-      <Link prefetch href={{ pathname: 'items', query: { page: page + 1 } }}>
+      <Link href={{ pathname: 'items', query: { page: page + 1 } }}>
         <a className="next" aria-disabled={page >= pages}>
           Next
         </a>
