@@ -17,7 +17,7 @@ export const TOGGLE_CART_MUTATION = gql`
   }
 `;
 
-export const useCart = () => {
+export const useCart = (): [boolean | undefined, () => void] => {
   const { data: { cartOpen } = {} } = useQuery<LocalStateData>(
     LOCAL_STATE_QUERY
   );

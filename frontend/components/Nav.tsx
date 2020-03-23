@@ -15,7 +15,7 @@ function Nav() {
       <Link href="/items">
         <a>Shop</a>
       </Link>
-      {me && (
+      {me ? (
         <>
           <Link href="/sell">
             <a>Sell</a>
@@ -37,8 +37,7 @@ function Nav() {
             />
           </button>
         </>
-      )}
-      {!me && (
+      ) : (
         <Link href="/signup">
           <a>Sign In</a>
         </Link>

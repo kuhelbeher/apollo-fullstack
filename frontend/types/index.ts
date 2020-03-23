@@ -21,3 +21,18 @@ export type CartItem = {
   quantity: number;
   item: Item;
 };
+
+export type OrderItem = Item & {
+  quantity: number;
+};
+
+export type Order = {
+  id: string;
+  charge: string;
+  total: number;
+  createdAt: string;
+  user: {
+    id: string;
+  };
+  items: OrderItem[];
+};

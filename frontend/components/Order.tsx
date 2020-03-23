@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 import OrderStyles from './styles/OrderStyles';
+import { Order as OrderType } from '../types';
 
 export const SINGLE_ORDER_QUERY = gql`
   query SINGLE_ORDER_QUERY($id: ID!) {
@@ -30,12 +31,23 @@ export const SINGLE_ORDER_QUERY = gql`
   }
 `;
 
-function Order({ id }) {
-  const {
-    data: { order },
-    loading,
-    error,
-  } = useQuery(SINGLE_ORDER_QUERY, {
+type Props = {
+  id: string;
+};
+
+type OrderData = {
+  order: OrderType;
+};
+
+type OrderVars = {
+  id: string;
+};
+
+function Order({ id }: Props) {
+  const { data: { order } = {}, loading, error } = useQuery<
+    OrderData,
+    OrderVars
+  >(SINGLE_ORDER_QUERY, {
     variables: { id },
   });
 
@@ -47,29 +59,33 @@ function Order({ id }) {
     return <p>Loading...</p>;
   }
 
+  if (!order) {
+    return null;
+  }
+
   return (
     <OrderStyles data-test="order">
       <Head>
-        <title>Sick Fits - Order {order.id}</title>
+        <title>Sick Fits - Order {order?.id}</title>
       </Head>
       <p>
         <span>Order ID:</span>
-        <span>{order.id}</span>
+        <span>{order?.id}</span>
       </p>
       <p>
         <span>Date:</span>
-        <span>{format(parseISO(order.createdAt), 'd MMMM yyyy, H:mm')}</span>
+        <span>{format(parseISO(order?.createdAt), 'd MMMM yyyy, H:mm')}</span>
       </p>
       <p>
         <span>Order Total:</span>
-        <span>{formatMoney(order.total)}</span>
+        <span>{formatMoney(order?.total)}</span>
       </p>
       <p>
         <span>Item Count:</span>
-        <span>{order.items.length}</span>
+        <span>{order?.items.length}</span>
       </p>
       <div className="items">
-        {order.items.map(item => (
+        {order?.items.map(item => (
           <div key={item.id} className="order-item">
             <img src={item.image} alt={item.title} />
             <div className="item-details">
