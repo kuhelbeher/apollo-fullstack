@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -24,24 +24,39 @@ const RESET_MUTATION = gql`
   }
 `;
 
-function Reset({ resetToken }) {
+type Props = {
+  resetToken: string;
+};
+
+type ResetVars = {
+  resetToken: string;
+  password: string;
+  confirmPassword: string;
+};
+
+function Reset({ resetToken }: Props) {
   const [values, setValues] = useState({
     password: '',
     confirmPassword: '',
   });
 
-  const [reset, { loading, error }] = useMutation(RESET_MUTATION, {
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
-  });
+  const [reset, { loading, error }] = useMutation<{ reset: {} }, ResetVars>(
+    RESET_MUTATION,
+    {
+      refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    }
+  );
 
-  const handleChange = ({ target: { name, value } }) => {
+  const handleChange = ({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [name]: value });
   };
 
   return (
     <Form
       method="post"
-      onSubmit={async e => {
+      onSubmit={async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
           await reset({

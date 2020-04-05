@@ -27,7 +27,7 @@ type ItemsQueryType = {
 };
 
 function DeleteItem({ id, children }: Props) {
-  const [deleteItem] = useMutation<{ deleteItem: DeleteItem }>(
+  const [deleteItem] = useMutation<{ deleteItem: {} }, DeleteItem>(
     DELETE_ITEM_MUTATION,
     {
       update(cache, payload) {

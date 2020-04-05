@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -16,24 +16,38 @@ const SIGNIN_MUTATION = gql`
   }
 `;
 
+type SignInRes = {
+  signin: {};
+};
+
+type SignInVars = {
+  email: string;
+  password: string;
+};
+
 function Signin() {
   const [values, setValues] = useState({
     email: '',
     password: '',
   });
 
-  const [signin, { loading, error }] = useMutation(SIGNIN_MUTATION, {
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
-  });
+  const [signin, { loading, error }] = useMutation<SignInRes, SignInVars>(
+    SIGNIN_MUTATION,
+    {
+      refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    }
+  );
 
-  const handleChange = ({ target: { name, value } }) => {
+  const handleChange = ({
+    target: { name, value },
+  }: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [name]: value });
   };
 
   return (
     <Form
       method="post"
-      onSubmit={async e => {
+      onSubmit={async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
           await signin({ variables: values });

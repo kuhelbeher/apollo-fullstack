@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -13,14 +13,23 @@ export const REQUEST_RESET_MUTATION = gql`
   }
 `;
 
+type RequestResetType = {
+  email: string;
+};
+
 function RequestReset() {
   const [email, setEmail] = useState('');
 
-  const [requestReset, { loading, error, called }] = useMutation(
-    REQUEST_RESET_MUTATION
-  );
+  const [requestReset, { loading, error, called }] = useMutation<
+    {
+      requestReset: {};
+    },
+    RequestResetType
+  >(REQUEST_RESET_MUTATION);
 
-  const handleChange = ({ target: { value } }) => {
+  const handleChange = ({
+    target: { value },
+  }: ChangeEvent<HTMLInputElement>) => {
     setEmail(value);
   };
 
@@ -28,7 +37,7 @@ function RequestReset() {
     <Form
       data-test="form"
       method="post"
-      onSubmit={async e => {
+      onSubmit={async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
           await requestReset({ variables: { email } });

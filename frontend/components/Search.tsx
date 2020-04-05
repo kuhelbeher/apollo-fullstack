@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, ChangeEvent } from 'react';
 import Downshift from 'downshift';
 import Router from 'next/router';
 import { useLazyQuery } from 'react-apollo';
@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import debounce from 'lodash.debounce';
 
 import { DropDown, DropDownItem, SearchStyles } from './styles/DropDown';
+import { Item } from '../types';
 
 const SEARCH_ITEMS_QUERY = gql`
   query SEARCH_ITEMS_QUERY($searchTerm: String!) {
@@ -24,7 +25,7 @@ const SEARCH_ITEMS_QUERY = gql`
   }
 `;
 
-function routeToItem(item) {
+function routeToItem(item: Item) {
   if (item) {
     Router.push({
       pathname: '/item',
@@ -35,15 +36,27 @@ function routeToItem(item) {
   }
 }
 
+type SearchItemsData = {
+  items: Item[];
+};
+
+type SearchItemsVars = {
+  searchTerm: string;
+};
+
 function Search() {
-  const [searchItems, { data: { items } = {}, loading }] = useLazyQuery(
-    SEARCH_ITEMS_QUERY
-  );
+  const [searchItems, { data, loading }] = useLazyQuery<
+    SearchItemsData,
+    SearchItemsVars
+  >(SEARCH_ITEMS_QUERY);
   const debouncedSearchItems = useRef(
-    debounce(searchTerm => searchItems({ variables: { searchTerm } }), 350)
+    debounce(
+      (searchTerm: string) => searchItems({ variables: { searchTerm } }),
+      350
+    )
   ).current;
 
-  const handleChange = e => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     debouncedSearchItems(e.target.value);
   };
 
@@ -70,9 +83,9 @@ function Search() {
                 onChange: handleChange,
               })}
             />
-            {isOpen && items && (
+            {isOpen && data?.items && (
               <DropDown>
-                {items.map((item, index) => (
+                {data.items.map((item: Item, index: number) => (
                   <DropDownItem
                     {...getItemProps({ item })}
                     key={item.id}
@@ -82,7 +95,7 @@ function Search() {
                     {item.title}
                   </DropDownItem>
                 ))}
-                {!items.length && !loading && (
+                {!data.items.length && !loading && (
                   <DropDownItem>Nothing found {inputValue}</DropDownItem>
                 )}
               </DropDown>
