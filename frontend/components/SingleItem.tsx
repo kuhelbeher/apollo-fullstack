@@ -1,11 +1,11 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Head from 'next/head';
 
 import Error from './ErrorMessage';
+import { Item } from '../types';
 
 const SingleItemStyles = styled.div`
   max-width: 1200px;
@@ -37,10 +37,25 @@ export const SINGLE_ITEM_QUERY = gql`
   }
 `;
 
-function SingleItem({ id }) {
-  const { loading, error, data } = useQuery(SINGLE_ITEM_QUERY, {
-    variables: { id },
-  });
+type Props = {
+  id: string;
+};
+
+type SingleItemRes = {
+  item: Item;
+};
+
+type SingleItemVars = {
+  id: string;
+};
+
+function SingleItem({ id }: Props) {
+  const { loading, error, data } = useQuery<SingleItemRes, SingleItemVars>(
+    SINGLE_ITEM_QUERY,
+    {
+      variables: { id },
+    }
+  );
 
   if (loading) {
     return <p>Loading...</p>;
@@ -48,6 +63,10 @@ function SingleItem({ id }) {
 
   if (error) {
     return <Error error={error} />;
+  }
+
+  if (!data) {
+    return null;
   }
 
   const { item } = data;
@@ -69,9 +88,5 @@ function SingleItem({ id }) {
     </SingleItemStyles>
   );
 }
-
-SingleItem.propTypes = {
-  id: PropTypes.string.isRequired,
-};
 
 export default SingleItem;
