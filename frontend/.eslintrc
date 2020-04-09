@@ -1,12 +1,13 @@
 {
-  "extends": ["airbnb", "prettier", "prettier/react"],
-  "parser": "babel-eslint",
+  "plugins": ["@typescript-eslint", "react-hooks", "prettier"],
+  "extends": [
+    "airbnb-typescript",
+    "prettier",
+    "prettier/react",
+    "prettier/@typescript-eslint"
+  ],
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "ecmaFeatures": {
-      "impliedStrict": true,
-      "classes": true
-    }
+    "project": "./tsconfig.json"
   },
   "env": {
     "browser": true,
@@ -74,7 +75,7 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [".js", ".jsx", "tsx", "ts"]
       }
     ],
     "radix": 0,
@@ -108,7 +109,8 @@
         "aspects": ["invalidHref"]
       }
     ],
-    "react/prop-types": 0
-  },
-  "plugins": ["prettier"]
+    "react/prop-types": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
 }
