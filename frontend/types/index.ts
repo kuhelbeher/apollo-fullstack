@@ -1,11 +1,10 @@
-export enum Permissions {
-  Admin = 'ADMIN',
-  User = 'USER',
-  ItemCreate = 'ITEMCREATE',
-  ItemUpdate = 'ITEMUPDATE',
-  ItemDelete = 'ITEMDELETE',
-  PermissionUpdate = 'PERMISSIONUPDATE',
-}
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  permissions: string[];
+  cart: CartItem[];
+};
 
 export type Item = {
   id: string;

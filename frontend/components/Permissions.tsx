@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { useQuery, useMutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Error from './ErrorMessage';
 import Table from './styles/Table';
 import SickButton from './styles/SickButton';
+import { User } from '../types';
 
 const possiblePermissions = [
   'ADMIN',
@@ -40,12 +41,17 @@ const UPDATE_PERMISSIONS_MUTATION = gql`
   }
 `;
 
+type AllUsersRes = {
+  users: User[];
+};
+
 function Permissions() {
-  const { data, error, loading } = useQuery(ALL_USERS_QUERY);
+  const { data, error, loading } = useQuery<AllUsersRes>(ALL_USERS_QUERY);
 
   if (loading) {
     return <p>Loading...</p>;
   }
+
   if (error) {
     return (
       <div>
@@ -69,7 +75,7 @@ function Permissions() {
           </tr>
         </thead>
         <tbody>
-          {data.users.map(user => (
+          {data?.users.map(user => (
             <UserPermissionsItem key={user.id} user={user} />
           ))}
         </tbody>
@@ -78,20 +84,35 @@ function Permissions() {
   );
 }
 
-function UserPermissionsItem({ user }) {
+type UserPermissionsItemProps = {
+  user: User;
+};
+
+type UpdatePermissionsRes = {
+  updatePermissions: User;
+};
+
+type UpdatePermissionsVars = {
+  permissions: string[];
+  userId: string;
+};
+
+function UserPermissionsItem({ user }: UserPermissionsItemProps) {
   const [permissions, setPermissions] = useState(user.permissions);
 
-  const [updatePermissions, { loading, error }] = useMutation(
-    UPDATE_PERMISSIONS_MUTATION,
-    {
-      variables: {
-        permissions,
-        userId: user.id,
-      },
-    }
-  );
+  const [updatePermissions, { loading, error }] = useMutation<
+    UpdatePermissionsRes,
+    UpdatePermissionsVars
+  >(UPDATE_PERMISSIONS_MUTATION, {
+    variables: {
+      permissions,
+      userId: user.id,
+    },
+  });
 
-  const handleChange = ({ target: { value, checked } }) => {
+  const handleChange = ({
+    target: { value, checked },
+  }: ChangeEvent<HTMLInputElement>) => {
     const updatedPermissions = checked
       ? [...permissions, value]
       : permissions.filter(permission => permission !== value);
@@ -103,7 +124,7 @@ function UserPermissionsItem({ user }) {
     <>
       {error && (
         <tr>
-          <td colSpan="8">
+          <td colSpan={8}>
             <Error error={error} />
           </td>
         </tr>

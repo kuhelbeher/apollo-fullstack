@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 
 import Signin from './Signin';
 import { useUser } from '../hooks';
 
 type Props = {
-  children: ReactNode;
+  children: ReactElement;
 };
 
 function PleaseSignIn({ children }: Props) {

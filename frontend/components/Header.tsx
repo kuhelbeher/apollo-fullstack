@@ -8,15 +8,15 @@ import Nav from './Nav';
 import Cart from './Cart';
 import Search from './Search';
 
-Router.onRouteChangeStart = () => {
+Router.events.on('routeChangeStart', () => {
   NProgress.start();
-};
-Router.onRouteChangeComplete = () => {
+});
+Router.events.on('routeChangeComplete', () => {
   NProgress.done();
-};
-Router.onRouteChangeError = () => {
+});
+Router.events.on('routeChangeError', () => {
   NProgress.done();
-};
+});
 
 const Logo = styled.h1`
   font-size: 4rem;
