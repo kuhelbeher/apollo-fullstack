@@ -2,7 +2,7 @@
 
 exports[`<Order/> renders the order 1`] = `
 <div
-  className="OrderStyles-sc-4oqalm-0 camMij"
+  className="OrderStyles-sc-4oqalm-0 cRiGPW"
   data-test="order"
 >
   <Head>

@@ -2,7 +2,7 @@
 
 exports[`<Pagination /> renders pagination for 18 items 1`] = `
 <div
-  className="PaginationStyles-aduuar-0 ewJsCc"
+  className="PaginationStyles-aduuar-0 buYoDE"
   data-test="pagination"
 >
   <Head>
@@ -21,7 +21,6 @@ exports[`<Pagination /> renders pagination for 18 items 1`] = `
         },
       }
     }
-    prefetch={true}
   >
     <a
       aria-disabled={true}
@@ -56,7 +55,6 @@ exports[`<Pagination /> renders pagination for 18 items 1`] = `
         },
       }
     }
-    prefetch={true}
   >
     <a
       aria-disabled={false}

@@ -2,12 +2,11 @@
 
 exports[`<Nav /> renders a minimal nav when signed out 1`] = `
 <ul
-  className="NavStyles-sc-11c0d2g-0 dDiqeM"
+  className="NavStyles-sc-11c0d2g-0 eyhDVW"
   data-test="nav"
 >
   <Link
     href="/items"
-    prefetch={true}
   >
     <a
       href="/items"
@@ -19,7 +18,6 @@ exports[`<Nav /> renders a minimal nav when signed out 1`] = `
   </Link>
   <Link
     href="/signup"
-    prefetch={true}
   >
     <a
       href="/signup"
@@ -34,7 +32,7 @@ exports[`<Nav /> renders a minimal nav when signed out 1`] = `
 
 exports[`<Nav /> renders the amount of items in the cart 1`] = `
 <div
-  className="CartCount__Dot-xxvp4g-1 fJsVOg count"
+  className="CartCount__Dot-s9fw0c-1 fjpPuW count"
 >
   9
 </div>
