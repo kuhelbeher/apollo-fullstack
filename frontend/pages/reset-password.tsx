@@ -1,9 +1,8 @@
 import React from 'react';
-
-import Signup from '../components/Signup';
+import RequestReset from '../components/RequestReset';
 
 function SignupPage() {
-  return <Signup />;
+  return <RequestReset />;
 }
 
 export default SignupPage;
